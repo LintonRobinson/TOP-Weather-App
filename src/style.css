@@ -1,0 +1,63 @@
+/* Box Model Hack */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/* Clear fix hack */
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clear {
+   clear: both;
+}
+
+/* Global button reset  */
+button {
+    appearance: none;          
+    -webkit-appearance: none;  
+    -moz-appearance: none;     
+
+    border: none;              
+    padding: 0;                
+    margin: 0;                 
+
+    background: none;          
+    font: inherit;             
+    color: inherit;            
+    line-height: inherit;      
+
+    text-align: inherit;       
+    cursor: pointer;           
+}
+
+/******************************************
+/* BASE STYLES
+/*******************************************/
+
+body {
+    
+}
+
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+header {
+
+}
+
+footer {
+
+}
+
+/******************************************
+/* UTILITY STYLES
+/*******************************************/
