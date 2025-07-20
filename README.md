@@ -1,6 +1,6 @@
 <div align="center">
   <br>
-  <h1>Project Name Goes Here</h1>
+  <h1>Weather App</h1>
   <br>
   <div>
     <img src="https://img.shields.io/static/v1?label=&message=HTML&color=E34F26&style=for-the-badge&logo=HTML5&logoColor=white">
