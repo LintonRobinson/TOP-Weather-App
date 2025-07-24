@@ -4,10 +4,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/fcebb37293.js" crossorigin="anonymous"></script>
+    <title>Weatherly</title>
 </head>
 
 <body>
+    <main>
+        <div id="logo">
+            <a id="github-logo" href="https://github.com/LintonRobinson" target="_blank"></a>
+        </div>
+        <div class="weather-details-wrapper">
+            <h1>100°F</h1>
+            <div id="current-location-time-wrapper">
+                <h2>Upperville, Virginia, United States</h2>
+                <span>Saturday, July 20th</span>
+            </div>
+            <div id="current-forecast-wrapper">
+                <img src="icons8-sun-100.png" alt="#">
+                <span>Sunny</span>
+            </div>
+        </div>
+        <form action="#" novalidate>
+            <input type="text" name="locationSearch" id="locationSearch" required>
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </main>
+    <aside>
+        <form action="#" novalidate>
+            <input type="text" name="locationSearch" id="locationSearch" required>
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+        <div id="sidebar-sections-wrapper">
+            <div id="seven-day-forecast-wrapper">
+                <h3>7 Day Forecast</h3>
+                <div>
+                    <div class="day-forecast-wrapper">
+                        <span>Sunday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Monday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Tuesday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Wednesday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Thursday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Friday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-forecast-wrapper">
+                        <span>Saturday</span>
+                        <div>
+                            <div>
+                                <img src="icons8-sun-100.png" alt="">
+                                <span>July, 22</span>
+                            </div>
+                            <div>
+                                <span>H: 100°F</span>
+                                <span>L: 100°F</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="hourly-forecast-wrapper">
+                <h3>Hourly Forecast</h3>
+                <div id="hourly-cards-wrapper">
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>12AM</span>
+
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>1AM</span>
+
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>2AM</span>
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>3AM</span>
+
+                    </div>
+                </div>
+            </div>
+            <div id="current-conditions-wrapper">
+                <h3>Current Conditions</h3>
+                <div id="current-condition-cards-wrapper">
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>Feels Like</span>
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>Precipitation</span>
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>Wind</span>
+                    </div>
+                    <div>
+                        <span>100°</span>
+                        <img src="icons8-sun-100.png" alt="">
+                        <span>Air Quality</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="toggle-sidebar-button" type="button">
+            <i class="fa-solid fa-chevrons-left"></i>
+        </button>
+        <i class="fa-light fa-xmark"></i>
+    </aside>
 </body>
 
 </html>
