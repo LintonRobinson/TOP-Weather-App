@@ -1,19 +1,31 @@
-class BaseSubject {
-    constructor() {
-        this.observers = [];
-    };
 
-    attach(callbackFunction) {
-        this.observers.push(callbackFunction);
-    };
+const subject = (() => {
+    class BaseSubject {
+        constructor() {
+            this.observers = [];
+        };
 
-    detach(callbackFunction) {
-        this.observers = this.observers.filter(observer => observer !== callbackFunction);
-    };
+        attach(callbackFunction) {
+            this.observers.push(callbackFunction);
+        };
 
-    notify(data) {
-        this.observers.forEach(observer => {
-            observer(data);
-        })
+        detach(callbackFunction) {
+            this.observers = this.observers.filter(observer => observer !== callbackFunction);
+        };
+
+        notify(data) {
+            this.observers.forEach(observer => {
+                observer(data);
+            });
+        };
     };
-};
+    return new BaseSubject()
+})();
+
+
+
+
+
+
+
+
