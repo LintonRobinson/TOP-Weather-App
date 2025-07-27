@@ -3,6 +3,7 @@ import "./dataFetchAndLoader.js"
 import dataFetchAndLoader from "./dataFetchAndLoader.js"
 import weatherManager from "./weatherManager.js"
 import uiManager from "./uiManager.js"
+import eventListenerManager from "./eventListenerSubject.js"
 
 
 
@@ -29,3 +30,4 @@ window.exampleWeatherObject = async () => {
 window.dataFetchAndLoader = dataFetchAndLoader
 window.weatherManager = weatherManager
 window.uiManager = uiManager
+window.eventListenerManager = eventListenerManager

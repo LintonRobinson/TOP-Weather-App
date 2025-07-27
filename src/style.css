@@ -176,7 +176,7 @@ aside.active {
 
 
 
-aside #toggle-sidebar-button {
+aside .fa-chevrons-left {
     width: 40px;
     height: 40px;
     position: absolute;
