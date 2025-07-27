@@ -1,34 +1,69 @@
 import {format , parse} from "date-fns";
+import weatherManager from "./weatherManager";
 
 const dataFetchAndLoader = (() => {
     class dataFetchAndLoaderSubject {
     constructor() {
-        this.observers = [];
+        
+        this.observers = {
+            successObservers: [],
+            failureObservers: [],
+        };
     };
 
-    attach(callbackFunction) {
-        this.observers.push(callbackFunction);
+    attachSuccessObserver(callbackFunction) {
+        this.observers.successObservers.push(callbackFunction);
+    };
+
+    attachFailureObserver(callbackFunction) {
+        this.observers.failureObservers.push(callbackFunction);
     };
 
     detach(callbackFunction) {
         this.observers = this.observers.filter(observer => observer !== callbackFunction);
     };
 
-    notify(data) {
-        this.observers.forEach(observer => {
+    notifySuccessObservers(data) {
+        console.log('This is the observers',this.observers)
+        this.observers.successObservers.forEach(observer => {
+            observer(data);
+        });
+    };
+
+    notifyFailureObservers(data) {
+        console.log('This is the observers',this.observers.failureObservers)
+        this.observers.failureObservers.forEach(observer => {
             observer(data);
         });
     };
 
     async getWeatherData(location) {
-        const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=3WJ5V42K3KSMK6SPCEUK6MY38`);
-        const weatherData = await response.json();
-        console.log(weatherData);
-        return weatherData
+        try {
+            const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=3WJ5V42K3KSMK6SPCEUK6MY38`);
+            if (!response.ok) throw new Error()
+            alert('error not thrown!')
+            const weatherData = await response.json();
+            return weatherData
+        } catch(err) {
+            //notify render input error
+            throw new Error()
+        }
+        
     };
 
     async getProccessReturnWeatherData(weatherDataCall, location) {
-        const weatherData = await weatherDataCall(location)
+        let weatherData
+        try {
+            weatherData = await weatherDataCall(location)
+        } catch (err) {
+            alert('Error has been thrown!');
+            this.notifyFailureObservers()
+
+            return
+
+        }
+        
+
         const allWeatherData = {
             currentLocation: weatherData.resolvedAddress,
             currentDate: format(weatherData.days[0].datetime, "EEEE, MMMM do"),
@@ -65,7 +100,7 @@ const dataFetchAndLoader = (() => {
                 return HourlyForecasts
             },
         }
-        console.log(allWeatherData)
+        this.notifySuccessObservers(allWeatherData)
         return allWeatherData
 
     }
@@ -81,3 +116,4 @@ export default dataFetchAndLoader;
 // Error when name is ambiguous 
 
 
+// dataFetchAndLoader.getProccessReturnWeatherData(dataFetchAndLoader.getWeatherData,'upperville');

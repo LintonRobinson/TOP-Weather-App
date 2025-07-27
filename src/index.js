@@ -1,10 +1,17 @@
 import "./style.css"
 import "./dataFetchAndLoader.js"
 import dataFetchAndLoader from "./dataFetchAndLoader.js"
+import weatherManager from "./weatherManager.js"
+import uiManager from "./uiManager.js"
 
 
 
-window.dataFetchAndLoader = dataFetchAndLoader
+
+
+
+dataFetchAndLoader.attachSuccessObserver(weatherManager.saveWeatherData.bind(weatherManager))
+dataFetchAndLoader.attachFailureObserver(uiManager.renderUserError.bind(uiManager))
+
 
 
 window.exampleWeatherObject = async () => {
@@ -18,3 +25,7 @@ window.exampleWeatherObject = async () => {
 // current condition, 
 
 // const yaMama = await exampleWeatherObject()
+
+window.dataFetchAndLoader = dataFetchAndLoader
+window.weatherManager = weatherManager
+window.uiManager = uiManager

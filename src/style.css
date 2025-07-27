@@ -146,6 +146,23 @@ aside {
     width: 500px;
     position: fixed;
     top: 0;
+    right: -500px;
+    background: rgba(241, 241, 241, 0.576);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.8px);
+    z-index: 1;
+    padding: 25px;
+    color: rgb(55, 55, 55);
+    transition: 0.5s ease;
+    
+}
+
+
+aside.active {
+    height: 100vh;
+    width: 500px;
+    position: fixed;
+    top: 0;
     right: 0;
     background: rgba(241, 241, 241, 0.576);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -312,3 +329,10 @@ h3 {
 /* UTILITY STYLES
 /*******************************************/
  
+.input-error {
+    border: solid 1px red;
+}
+
+aside.active {
+
+}
