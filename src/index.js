@@ -11,7 +11,11 @@ import eventListenerManager from "./eventListenerSubject.js"
 
 
 dataFetchAndLoader.attachSuccessObserver(weatherManager.saveWeatherData.bind(weatherManager))
-dataFetchAndLoader.attachFailureObserver(uiManager.renderUserError.bind(uiManager))
+dataFetchAndLoader.attachSuccessObserver(uiManager.resetFormStylings)
+dataFetchAndLoader.attachSuccessObserver(uiManager.toggleLoadingModal)
+dataFetchAndLoader.attachFailureObserver(uiManager.renderUserError.bind(uiManager));
+dataFetchAndLoader.attachFailureObserver(uiManager.toggleLoadingModal);
+// uiManager.toggleLoadingModal()
 
 
 

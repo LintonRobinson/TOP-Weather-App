@@ -1,5 +1,7 @@
 import {format , parse} from "date-fns";
 import weatherManager from "./weatherManager";
+import uiManager from "./uiManager";
+
 
 const dataFetchAndLoader = (() => {
     class dataFetchAndLoaderSubject {
@@ -41,24 +43,24 @@ const dataFetchAndLoader = (() => {
         try {
             const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=3WJ5V42K3KSMK6SPCEUK6MY38`);
             if (!response.ok) throw new Error()
-            alert('error not thrown!')
             const weatherData = await response.json();
-            return weatherData
+            return weatherData;
         } catch(err) {
-            //notify render input error
-            throw new Error()
+            // Throw error to getProccessReturnWeatherData
+            throw new Error();
         }
         
     };
 
     async getProccessReturnWeatherData(weatherDataCall, location) {
-        let weatherData
+        let weatherData;
         try {
-            weatherData = await weatherDataCall(location)
+            uiManager.toggleLoadingModal()
+            weatherData = await weatherDataCall(location);
         } catch (err) {
-            alert('Error has been thrown!');
-            this.notifyFailureObservers()
-
+            // Style active input to display error and stop application
+            this.notifyFailureObservers();
+            
             return
 
         }
@@ -84,7 +86,7 @@ const dataFetchAndLoader = (() => {
 
                     });
                 }
-                return SevenDayForecasts
+                return SevenDayForecasts;
             },
             get getHourlyForecasts() {
                 const HourlyForecasts = [];
@@ -93,15 +95,21 @@ const dataFetchAndLoader = (() => {
                         hour: format(parse(weatherData.days[0].hours[i].datetime, 'HH:mm:ss', new Date()), 'ha'),
                         hourlyIconDescriptor: weatherData.days[0].hours[i].icon,
                         hourlyTemperature: weatherData.days[0].hours[i].temp, 
-            
-
                     })
                 }
-                return HourlyForecasts
+                return HourlyForecasts;
             },
         }
-        this.notifySuccessObservers(allWeatherData)
-        return allWeatherData
+        // Send and save weather data to weatherManager
+        this.notifySuccessObservers(allWeatherData);
+        // Close modal after initial successful location search
+        if (uiManager.getInitialModalState()) {
+            const startDialog = document.querySelector('#initial-modal')
+            startDialog.close();
+            // Set Modal state to false so this block runs only once
+            uiManager.setFalseInitialModalState();
+        }
+        return allWeatherData;
 
     }
 };
