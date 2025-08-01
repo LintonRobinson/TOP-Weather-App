@@ -1,4 +1,6 @@
+import weatherManager from "./weatherManager.js";
 const uiManager = (() => {
+
     class uiManagerSubject {
         constructor() {
             this.observers = {
@@ -22,7 +24,6 @@ const uiManager = (() => {
         };
 
         notifySuccessObservers(data) {
-            console.log('This is the observers',this.observers)
             this.observers.successObservers.forEach(observer => {
                 observer(data);
             });
@@ -30,7 +31,6 @@ const uiManager = (() => {
 
 
         notifyFailureObservers(data) {
-            console.log('This is the observers',this.observers.failureObservers)
             this.observers.failureObservers.forEach(observer => {
                 observer(data);
             });
@@ -80,15 +80,61 @@ const uiManager = (() => {
 
         renderUserError() {
             const userLocationInput = document.querySelector(`#${this.activeInputId}`);
-            console.log('The current input parent',userLocationInput)
             const userLocationForm = userLocationInput.parentElement
-            console.log('the form',userLocationForm);
             userLocationForm.classList.add('input-error');
             userLocationInput.classList.add('input-error-placeholder');
             userLocationInput.setAttribute('placeholder','Invalid: City + State/ZIP/Country Code');
         }
 
-        renderCurrentWeather(weatherData) {
+
+        async renderCurrentWeather(weatherData) {
+            const currentTemperatureElement = document.querySelector('#current-temperature');
+            console.log('This is the temp unit', weatherManager.getTemperatureMeasurementUnit())
+            if (weatherManager.getTemperatureMeasurementUnit() === 'Fahrenheit' ) {
+                console.log('rendering f')
+                currentTemperatureElement.textContent = `${weatherData.currentTemperature}°F`;
+                
+                
+            } else {
+                console.log('rendering c')
+                currentTemperatureElement.textContent = `${weatherData.currentTemperature}°C`;
+            };
+            
+
+
+
+            const currentLocationElement = document.querySelector('#current-location');
+            currentLocationElement.textContent = weatherData.currentLocation;
+
+            const currentDateElement = document.querySelector('#current-date');
+            currentDateElement.textContent = weatherData.currentDate;
+
+            const currentConditionElement = document.querySelector('#current-condition');
+            currentConditionElement.textContent = weatherData.currentCondition;
+
+
+            const currentConditionIconElement = document.querySelector('#current-condition-icon');
+            currentConditionIconElement.src = weatherData.currentCondition;
+
+            const imageSource = await import(`./${weatherData.currentIconDescriptor}.png`);
+        
+            const currentConditionImage = document.querySelector('#current-condition-icon');
+            currentConditionImage.src = imageSource.default;
+
+        
+            
+        }
+
+        async renderSevenDayForecast(weatherData) {
+            const dayForecastWrapperElements = document.querySelectorAll('.day-forecast-wrapper');
+            dayForecastWrapperElements.forEach((dayForecastWrapperElement,index) => {
+                dayForecastWrapperElement.querySelector('.day-forecast').textContent = weatherData.SevenDayForecasts[index].date;
+                //
+                import(`./dataFetchAndLoader.js`).then(imageSource => {
+
+                })
+                
+            })
             
         }
     };

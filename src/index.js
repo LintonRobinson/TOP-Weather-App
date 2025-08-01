@@ -15,6 +15,7 @@ dataFetchAndLoader.attachSuccessObserver(uiManager.resetFormStylings)
 dataFetchAndLoader.attachSuccessObserver(uiManager.toggleLoadingModal)
 dataFetchAndLoader.attachFailureObserver(uiManager.renderUserError.bind(uiManager));
 dataFetchAndLoader.attachFailureObserver(uiManager.toggleLoadingModal);
+weatherManager.attach(uiManager.renderCurrentWeather)
 // uiManager.toggleLoadingModal()
 
 

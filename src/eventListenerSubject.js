@@ -1,5 +1,6 @@
 import dataFetchAndLoader from "./dataFetchAndLoader.js";
 import uiManager from "./uiManager.js";
+import weatherManager from "./weatherManager.js";
 
 const eventListenerManager = (() => {
 
@@ -36,7 +37,6 @@ const eventListenerManager = (() => {
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
                 const userInput = event.target.querySelector('input');
-                console.log('The input id', userInput.id)
                 uiManager.setActiveInputId(userInput.id);
                 dataFetchAndLoader.getProccessReturnWeatherData(dataFetchAndLoader.getWeatherData,userInput.value);
                 userInput.value = "";
@@ -48,6 +48,35 @@ const eventListenerManager = (() => {
         
     }
     addFormSubmitListeners();
+
+    function addTemperatureUnitToggleListeners() {
+        const temperatureButtonWrapper = document.querySelector('#temperature-unit-button-wrapper');
+        const tempatureButtons = temperatureButtonWrapper.querySelectorAll('button');
+        const fahrenheitButton = document.querySelector('#Fahrenheit');
+        const celsiusButton =  document.querySelector('#Celsius');
+        temperatureButtonWrapper.addEventListener('click', (event) => {
+            // If 
+            if (event.target.matches('#Fahrenheit') && weatherManager.getTemperatureMeasurementUnit() !== 'Fahrenheit') {
+                weatherManager.revertTemperaturesToFahrenheit()
+                uiManager.renderCurrentWeather(weatherManager.getWeatherData());
+                celsiusButton.classList.remove('active-temp-unit');
+                fahrenheitButton.classList.add('active-temp-unit');
+            }
+
+            if (event.target.matches('#Celsius') && weatherManager.getTemperatureMeasurementUnit() !== 'Celsius') {
+                weatherManager.convertTemperaturesToCelsius();
+                uiManager.renderCurrentWeather(weatherManager.getWeatherData());
+                fahrenheitButton.classList.remove('active-temp-unit');
+                celsiusButton.classList.add('active-temp-unit');
+            }
+
+        });
+
+    
+
+        
+    }
+    addTemperatureUnitToggleListeners();
 
 
     

@@ -61,7 +61,7 @@ h1 {
 
 
 body {
-    background-image: url('sunny-background.jpeg');
+    background-image: url('clear-day-background.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
@@ -153,7 +153,7 @@ main form {
 
 }
 
-.weather-details-wrapper {
+#weather-details-wrapper {
     display: flex;
     gap: 30px;
     align-items: center;
@@ -165,9 +165,45 @@ main form {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(4.8px);
     border: 1px solid rgba(255, 255, 255, 0.39);
-    padding: 20px 40px;
+    padding: 60px;
     color: rgb(55, 55, 55);
-    
+
+}
+
+#temperature-unit-button-wrapper {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+    background: rgba(226, 226, 226, 0.304);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.8px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
+
+    display: flex;
+    gap: 10px;
+
+
+
+}
+
+#temperature-unit-button-wrapper button {
+    padding: 10px 15px;
+}
+
+
+#temperature-unit-button-wrapper button {
+    background-color: none;
+    transition: 0.3s ease;
+}
+
+.active-temp-unit {
+    transition: 0.3s ease;
+    border: none;
+    border-radius: 16px;
+    background-color: rgb(55, 55, 55);
+    color: white;
 }
 
 #current-location-time-wrapper {
@@ -184,7 +220,7 @@ main form {
 }
 
 
-.weather-details-wrapper img {
+#weather-details-wrapper img {
     width: 32px;
 }
 

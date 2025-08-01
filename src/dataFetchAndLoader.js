@@ -6,7 +6,6 @@ import uiManager from "./uiManager";
 const dataFetchAndLoader = (() => {
     class dataFetchAndLoaderSubject {
     constructor() {
-        
         this.observers = {
             successObservers: [],
             failureObservers: [],
@@ -54,6 +53,7 @@ const dataFetchAndLoader = (() => {
 
     async getProccessReturnWeatherData(weatherDataCall, location) {
         let weatherData;
+        
         try {
             uiManager.toggleLoadingModal()
             weatherData = await weatherDataCall(location);
@@ -65,53 +65,59 @@ const dataFetchAndLoader = (() => {
 
         }
         
+        const sevenDayForecasts = [];
+        for (let i = 0; i < 7; i++) {
+            sevenDayForecasts.push({
+                dayOfWeek: format(weatherData.days[i].datetime, "EEEE"),
+                date: format(weatherData.days[i].datetime, "MMMM do"),
+                dayIconDescriptor: weatherData.days[i].icon,
+                dayHighTemperature: weatherData.days[i].tempmax, 
+                dayLowTemperature: weatherData.days[i].tempmin,
+            });
+        }
+        
+        const hourlyForecasts = [];
+        for (let i = 0; i < 24; i++) {
+            hourlyForecasts.push({
+                hour: format(parse(weatherData.days[0].hours[i].datetime, 'HH:mm:ss', new Date()), 'ha'),
+                hourlyIconDescriptor: weatherData.days[0].hours[i].icon,
+                hourlyTemperature: weatherData.days[0].hours[i].temp, 
+            })
+        }
 
+        // Save weather data
         const allWeatherData = {
             currentLocation: weatherData.resolvedAddress,
-            currentDate: format(weatherData.days[0].datetime, "EEEE, MMMM do"),
-            currentTemperature: weatherData.currentConditions.temp,
+            currentDate: format(new Date(), "EEEE, MMMM do"),
+            currentTemperature: Math.round(weatherData.currentConditions.temp),
             currentCondition: weatherData.currentConditions.conditions,
             currentIconDescriptor: weatherData.currentConditions.icon,
             currentChanceOfPrecipitation: weatherData.currentConditions.precipprob,
             currentWindSpeed: weatherData.currentConditions.windspeed,
-            get getSevenDayForecasts() {
-                const SevenDayForecasts = [];
-                for (let i = 0; i <= 7; i++) {
-                    SevenDayForecasts.push({
-                        dayOfWeek: format(weatherData.days[i].datetime, "EEEE"),
-                        date: format(weatherData.days[i].datetime, "MMMM do"),
-                        dayIconDescriptor: weatherData.days[i].icon,
-                        dayHighTemperature: weatherData.days[i].tempmax, 
-                        dayLowTemperature: weatherData.days[i].tempmin,
-
-                    });
-                }
-                return SevenDayForecasts;
-            },
-            get getHourlyForecasts() {
-                const HourlyForecasts = [];
-                for (let i = 0; i < 24; i++) {
-                    HourlyForecasts.push({
-                        hour: format(parse(weatherData.days[0].hours[i].datetime, 'HH:mm:ss', new Date()), 'ha'),
-                        hourlyIconDescriptor: weatherData.days[0].hours[i].icon,
-                        hourlyTemperature: weatherData.days[0].hours[i].temp, 
-                    })
-                }
-                return HourlyForecasts;
-            },
+            sevenDayForecasts: sevenDayForecasts,
+            hourlyForecasts: hourlyForecasts,
+            nonConvertedSevenDayForecasts: sevenDayForecasts,
+            nonConvertedHourlyForecasts: hourlyForecasts,
+            previousUserLocationSearch: location,
+            nonConvertedTemperature: Math.round(weatherData.currentConditions.temp),
         }
+    
         // Send and save weather data to weatherManager
         this.notifySuccessObservers(allWeatherData);
         // Close modal after initial successful location search
+        
         if (uiManager.getInitialModalState()) {
             const startDialog = document.querySelector('#initial-modal')
             startDialog.close();
             // Set Modal state to false so this block runs only once
             uiManager.setFalseInitialModalState();
         }
+
         return allWeatherData;
 
     }
+
+    
 };
     return new dataFetchAndLoaderSubject();
 })();

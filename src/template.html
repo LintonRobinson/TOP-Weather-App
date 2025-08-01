@@ -36,15 +36,19 @@
         <div id="logo">
             <a id="github-logo" href="https://github.com/LintonRobinson" target="_blank"></a>
         </div>
-        <div class="weather-details-wrapper">
-            <h1>100°F</h1>
+        <div id="weather-details-wrapper">
+            <h1 id="current-temperature">100°F</h1>
             <div id="current-location-time-wrapper">
-                <h2>Upperville, Virginia, United States</h2>
-                <span>Saturday, July 20th</span>
+                <h2 id="current-location">Upperville, Virginia, United States</h2>
+                <span id="current-date">Saturday, July 20th</span>
             </div>
             <div id="current-forecast-wrapper">
-                <img src="icons8-sun-100.png" alt="#">
-                <span>Sunny</span>
+                <img src="clear-day.png" alt="Current condition icon" id="current-condition-icon">
+                <span id="current-condition">Sunny</span>
+            </div>
+            <div id="temperature-unit-button-wrapper">
+                <button id="Fahrenheit" class="active-temp-unit">°F</button>
+                <button id="Celsius">°C</button>
             </div>
         </div>
         <form action="#" novalidate id="main-form">
@@ -68,10 +72,10 @@
                 <h3>7 Day Forecast</h3>
                 <div>
                     <div class="day-forecast-wrapper">
-                        <span>Sunday</span>
+                        <span class="day-forecast">Sunday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -85,7 +89,7 @@
                         <span>Monday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -99,7 +103,7 @@
                         <span>Tuesday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -112,7 +116,7 @@
                         <span>Wednesday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -125,7 +129,7 @@
                         <span>Thursday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -138,7 +142,7 @@
                         <span>Friday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -151,7 +155,7 @@
                         <span>Saturday</span>
                         <div>
                             <div>
-                                <img src="icons8-sun-100.png" alt="">
+                                <img src="clear-day.png" alt="">
                                 <span>July, 22</span>
                             </div>
                             <div>
@@ -168,24 +172,24 @@
                 <div id="hourly-cards-wrapper">
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>12AM</span>
 
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>1AM</span>
 
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>2AM</span>
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>3AM</span>
 
                     </div>
@@ -196,22 +200,22 @@
                 <div id="current-condition-cards-wrapper">
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>Feels Like</span>
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>Precipitation</span>
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>Wind</span>
                     </div>
                     <div>
                         <span>100°</span>
-                        <img src="icons8-sun-100.png" alt="">
+                        <img src="clear-day.png" alt="">
                         <span>Air Quality</span>
                     </div>
                 </div>
