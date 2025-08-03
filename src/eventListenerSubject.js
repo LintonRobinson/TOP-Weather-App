@@ -1,3 +1,4 @@
+import { daysInWeek } from "date-fns/constants";
 import dataFetchAndLoader from "./dataFetchAndLoader.js";
 import uiManager from "./uiManager.js";
 import weatherManager from "./weatherManager.js";
@@ -41,6 +42,8 @@ const eventListenerManager = (() => {
                 uiManager.setActiveInputId(userInput.id);
                 dataFetchAndLoader.getProccessReturnWeatherData(dataFetchAndLoader.getWeatherData,userInput.value);
                 userInput.value = "";
+                if (dataFetchAndLoader.getTimerId() !== null) clearTimeout(dataFetchAndLoader.getTimerId());
+                dataFetchAndLoader.fetchDataEveryFiveMinutes();
             });
         });
 

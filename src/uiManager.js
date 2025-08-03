@@ -62,10 +62,6 @@ const uiManager = (() => {
             loadingModal.classList.toggle('active-modal');
         }
 
-        
-
-
-
         resetFormStylings() {
             const userLocationForms = document.querySelectorAll('form');
             const userLocationInputs = document.querySelectorAll('input');
@@ -80,6 +76,8 @@ const uiManager = (() => {
             })
         }
 
+        
+
         renderUserError() {
             const userLocationInput = document.querySelector(`#${this.activeInputId}`);
             const userLocationForm = userLocationInput.parentElement
@@ -87,8 +85,6 @@ const uiManager = (() => {
             userLocationInput.classList.add('input-error-placeholder');
             userLocationInput.setAttribute('placeholder','Invalid: City + State/ZIP/Country Code');
         }
-
-        
 
         async renderCurrentWeather(weatherData) {
             // Render current temperature
@@ -136,7 +132,6 @@ const uiManager = (() => {
         }
 
         async renderSevenDayForecast(weatherData) {
-            console.log('Render seven',weatherData)
             const dayForecastWrapperElements = document.querySelectorAll('.day-forecast-wrapper');
             dayForecastWrapperElements.forEach(async (dayForecastWrapperElement,index) => {
                 dayForecastWrapperElement.classList.remove('todays-forecast')
@@ -166,12 +161,9 @@ const uiManager = (() => {
         }
 
         async renderHourlyForecast(weatherData) {
-            console.log('Render hour',weatherData)
             const hourlyCardWrapperElements = document.querySelectorAll('.hourly-card-wrapper');
             hourlyCardWrapperElements.forEach(async (hourlyForecastWrapperElement,index) => {
                 hourlyForecastWrapperElement.classList.remove('current-hour');
-                console.log('formatted date with current time stamp',weatherManager.convertTimestampToFormat(weatherData.hourlyForecasts[index].nonConvertedHour))
-                
                 if (isSameHour(new Date(), weatherManager.convertTimestampToFormat(weatherData.hourlyForecasts[index].nonConvertedHour))) {
                     hourlyForecastWrapperElement.classList.add('current-hour');
                     hourlyForecastWrapperElement.scrollIntoView({ inline: 'start' })
@@ -182,18 +174,12 @@ const uiManager = (() => {
                     
                 } else {
                     hourlyForecastWrapperElement.querySelector('.hour-temperature').textContent = `${weatherData.hourlyForecasts[index].hourlyTemperature}°C`;
-                    
                 };
-                
+        
                 const hourForecastConditionImage = hourlyForecastWrapperElement.querySelector('img');
                 const hourForecastImageSource = await import(`./${weatherData.hourlyForecasts[index].hourlyIconDescriptor}.png`);
-                hourForecastConditionImage.src = hourForecastImageSource.default;
-            
-
-                
-                
+                hourForecastConditionImage.src = hourForecastImageSource.default; 
             });
-         
         }
 
         async renderCurrentConditions(weatherData) { 

@@ -1,4 +1,5 @@
 import { set } from 'date-fns';
+import dataFetchAndLoader from './dataFetchAndLoader';
 const weatherManager = (() => {
     class weatherManagerSubject {
         constructor() {
