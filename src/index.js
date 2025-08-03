@@ -10,27 +10,18 @@ import eventListenerManager from "./eventListenerSubject.js"
 
 
 
-dataFetchAndLoader.attachSuccessObserver(weatherManager.saveWeatherData.bind(weatherManager))
-dataFetchAndLoader.attachSuccessObserver(uiManager.resetFormStylings)
-dataFetchAndLoader.attachSuccessObserver(uiManager.toggleLoadingModal)
+dataFetchAndLoader.attachSuccessObserver(weatherManager.saveWeatherData.bind(weatherManager));
+dataFetchAndLoader.attachSuccessObserver(uiManager.resetFormStylings);
+dataFetchAndLoader.attachSuccessObserver(uiManager.toggleLoadingModal);
 dataFetchAndLoader.attachFailureObserver(uiManager.renderUserError.bind(uiManager));
 dataFetchAndLoader.attachFailureObserver(uiManager.toggleLoadingModal);
-weatherManager.attach(uiManager.renderCurrentWeather)
-// uiManager.toggleLoadingModal()
+weatherManager.attach(uiManager.renderWeather.bind(uiManager));
 
 
 
-window.exampleWeatherObject = async () => {
-    const data = await dataFetchAndLoader.getProccessReturnWeatherData(dataFetchAndLoader.getWeatherData,'upperville');
-    console.log('This is it', data)
-    return data;
-}
 
 
 
-// current condition, 
-
-// const yaMama = await exampleWeatherObject()
 
 window.dataFetchAndLoader = dataFetchAndLoader
 window.weatherManager = weatherManager

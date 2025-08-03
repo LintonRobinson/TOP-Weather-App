@@ -1,4 +1,6 @@
 import weatherManager from "./weatherManager.js";
+import { parse, isToday , isSameHour  } from 'date-fns';
+
 const uiManager = (() => {
 
     class uiManagerSubject {
@@ -86,57 +88,133 @@ const uiManager = (() => {
             userLocationInput.setAttribute('placeholder','Invalid: City + State/ZIP/Country Code');
         }
 
+        
 
         async renderCurrentWeather(weatherData) {
+            // Render current temperature
             const currentTemperatureElement = document.querySelector('#current-temperature');
-            console.log('This is the temp unit', weatherManager.getTemperatureMeasurementUnit())
             if (weatherManager.getTemperatureMeasurementUnit() === 'Fahrenheit' ) {
-                console.log('rendering f')
                 currentTemperatureElement.textContent = `${weatherData.currentTemperature}°F`;
-                
-                
             } else {
-                console.log('rendering c')
                 currentTemperatureElement.textContent = `${weatherData.currentTemperature}°C`;
             };
             
-
-
-
+            // Render current location
             const currentLocationElement = document.querySelector('#current-location');
             currentLocationElement.textContent = weatherData.currentLocation;
 
+            // Render current date
             const currentDateElement = document.querySelector('#current-date');
             currentDateElement.textContent = weatherData.currentDate;
 
+            // Render current condition
             const currentConditionElement = document.querySelector('#current-condition');
             currentConditionElement.textContent = weatherData.currentCondition;
 
 
-            const currentConditionIconElement = document.querySelector('#current-condition-icon');
-            currentConditionIconElement.src = weatherData.currentCondition;
-
-            const imageSource = await import(`./${weatherData.currentIconDescriptor}.png`);
         
+
+            // Render current condition icon
             const currentConditionImage = document.querySelector('#current-condition-icon');
-            currentConditionImage.src = imageSource.default;
+            const currentConditionImageSource = await import(`./${weatherData.currentIconDescriptor.toLowerCase()}.png`);
+            currentConditionImage.src = currentConditionImageSource.default;
+
+            // Render current condition background image
+            const currentConditionBackgroundImageSource = await import(`./${weatherData.currentIconDescriptor}-background.jpeg`);
+            const mainContainer = document.querySelector('main');
+            mainContainer.style.backgroundImage = `url('${currentConditionBackgroundImageSource.default}')`;
 
         
             
         }
 
-        async renderSevenDayForecast(weatherData) {
-            const dayForecastWrapperElements = document.querySelectorAll('.day-forecast-wrapper');
-            dayForecastWrapperElements.forEach((dayForecastWrapperElement,index) => {
-                dayForecastWrapperElement.querySelector('.day-forecast').textContent = weatherData.SevenDayForecasts[index].date;
-                //
-                import(`./dataFetchAndLoader.js`).then(imageSource => {
+        async renderWeather(weatherData) {
+            await this.renderCurrentWeather(weatherData);
+            await this.renderSevenDayForecast(weatherData);  
+            await this.renderHourlyForecast(weatherData);
+            await this.renderCurrentConditions(weatherData);
+        }
 
-                })
+        async renderSevenDayForecast(weatherData) {
+            console.log('Render seven',weatherData)
+            const dayForecastWrapperElements = document.querySelectorAll('.day-forecast-wrapper');
+            dayForecastWrapperElements.forEach(async (dayForecastWrapperElement,index) => {
+                dayForecastWrapperElement.classList.remove('todays-forecast')
+                
+                const currentYear = new Date().getFullYear();
+                const parsedDate = parse(`${weatherData.sevenDayForecasts[index].date}, ${currentYear}`, 'MMMM do, yyyy', new Date());
+                if (isToday(parsedDate)) dayForecastWrapperElement.classList.add('todays-forecast')
+                
+                dayForecastWrapperElement.querySelector('.day-of-week').textContent = weatherData.sevenDayForecasts[index].dayOfWeek;
+                
+                const dayForecastConditionImage = dayForecastWrapperElement.querySelector('img');
+                const dayForecastImageSource = await import(`./${weatherData.sevenDayForecasts[index].dayIconDescriptor}.png`);
+                dayForecastConditionImage.src = dayForecastImageSource.default;
+                
+                dayForecastWrapperElement.querySelector('.day-forecast').textContent = weatherData.sevenDayForecasts[index].date;
+
+                if (weatherManager.getTemperatureMeasurementUnit() === 'Fahrenheit' ) {
+                    dayForecastWrapperElement.querySelector('.high-temperature').textContent = `H: ${weatherData.sevenDayForecasts[index].dayHighTemperature}°F`;
+                    dayForecastWrapperElement.querySelector('.low-temperature').textContent = `L: ${weatherData.sevenDayForecasts[index].dayLowTemperature}°F`;
+                } else {
+                    dayForecastWrapperElement.querySelector('.high-temperature').textContent = `H: ${weatherData.sevenDayForecasts[index].dayHighTemperature}°C`;
+                    dayForecastWrapperElement.querySelector('.low-temperature').textContent = `L: ${weatherData.sevenDayForecasts[index].dayLowTemperature}°C`;
+                };
                 
             })
             
         }
+
+        async renderHourlyForecast(weatherData) {
+            console.log('Render hour',weatherData)
+            const hourlyCardWrapperElements = document.querySelectorAll('.hourly-card-wrapper');
+            hourlyCardWrapperElements.forEach(async (hourlyForecastWrapperElement,index) => {
+                hourlyForecastWrapperElement.classList.remove('current-hour');
+                console.log('formatted date with current time stamp',weatherManager.convertTimestampToFormat(weatherData.hourlyForecasts[index].nonConvertedHour))
+                
+                if (isSameHour(new Date(), weatherManager.convertTimestampToFormat(weatherData.hourlyForecasts[index].nonConvertedHour))) {
+                    hourlyForecastWrapperElement.classList.add('current-hour');
+                    hourlyForecastWrapperElement.scrollIntoView({ inline: 'start' })
+                };
+                
+                if (weatherManager.getTemperatureMeasurementUnit() === 'Fahrenheit' ) {
+                    hourlyForecastWrapperElement.querySelector('.hour-temperature').textContent = `${weatherData.hourlyForecasts[index].hourlyTemperature}°F`;
+                    
+                } else {
+                    hourlyForecastWrapperElement.querySelector('.hour-temperature').textContent = `${weatherData.hourlyForecasts[index].hourlyTemperature}°C`;
+                    
+                };
+                
+                const hourForecastConditionImage = hourlyForecastWrapperElement.querySelector('img');
+                const hourForecastImageSource = await import(`./${weatherData.hourlyForecasts[index].hourlyIconDescriptor}.png`);
+                hourForecastConditionImage.src = hourForecastImageSource.default;
+            
+
+                
+                
+            });
+         
+        }
+
+        async renderCurrentConditions(weatherData) { 
+            // Render current humidity
+            const currentHumidityElement = document.querySelector('#current-humidity');
+            currentHumidityElement.textContent = `${weatherData.currentHumidity}%`;
+
+            // Render current precipitation
+            const currentPrecipitationElement = document.querySelector('#current-precipitation');
+            currentPrecipitationElement.textContent = `${weatherData.currentChanceOfPrecipitation}%`;
+
+            // Render current wind
+            const currentWindElement = document.querySelector('#current-wind');
+            currentWindElement.textContent = `${weatherData.currentWindSpeed}mph`;
+
+            // Render current uv index
+            const currentUVIndexElement = document.querySelector('#current-uv-index');
+            currentUVIndexElement.textContent = weatherData.currentUVIndex;
+        }
+
+        
     };
     return new uiManagerSubject()
 })();

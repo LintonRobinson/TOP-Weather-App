@@ -26,6 +26,7 @@ const eventListenerManager = (() => {
             });
         });
     }
+
     addInputEventListeners();
 
     
@@ -51,21 +52,20 @@ const eventListenerManager = (() => {
 
     function addTemperatureUnitToggleListeners() {
         const temperatureButtonWrapper = document.querySelector('#temperature-unit-button-wrapper');
-        const tempatureButtons = temperatureButtonWrapper.querySelectorAll('button');
         const fahrenheitButton = document.querySelector('#Fahrenheit');
         const celsiusButton =  document.querySelector('#Celsius');
         temperatureButtonWrapper.addEventListener('click', (event) => {
             // If 
             if (event.target.matches('#Fahrenheit') && weatherManager.getTemperatureMeasurementUnit() !== 'Fahrenheit') {
                 weatherManager.revertTemperaturesToFahrenheit()
-                uiManager.renderCurrentWeather(weatherManager.getWeatherData());
+                uiManager.renderWeather(weatherManager.getWeatherData());
                 celsiusButton.classList.remove('active-temp-unit');
                 fahrenheitButton.classList.add('active-temp-unit');
             }
 
             if (event.target.matches('#Celsius') && weatherManager.getTemperatureMeasurementUnit() !== 'Celsius') {
                 weatherManager.convertTemperaturesToCelsius();
-                uiManager.renderCurrentWeather(weatherManager.getWeatherData());
+                uiManager.renderWeather(weatherManager.getWeatherData());
                 fahrenheitButton.classList.remove('active-temp-unit');
                 celsiusButton.classList.add('active-temp-unit');
             }

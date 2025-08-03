@@ -1,5 +1,4 @@
 import {format , parse} from "date-fns";
-import weatherManager from "./weatherManager";
 import uiManager from "./uiManager";
 
 
@@ -60,10 +59,10 @@ const dataFetchAndLoader = (() => {
         } catch (err) {
             // Style active input to display error and stop application
             this.notifyFailureObservers();
-            
+    
             return
 
-        }
+        };
         
         const sevenDayForecasts = [];
         for (let i = 0; i < 7; i++) {
@@ -71,19 +70,24 @@ const dataFetchAndLoader = (() => {
                 dayOfWeek: format(weatherData.days[i].datetime, "EEEE"),
                 date: format(weatherData.days[i].datetime, "MMMM do"),
                 dayIconDescriptor: weatherData.days[i].icon,
-                dayHighTemperature: weatherData.days[i].tempmax, 
-                dayLowTemperature: weatherData.days[i].tempmin,
+                dayHighTemperature: Math.round(weatherData.days[i].tempmax), 
+                dayLowTemperature: Math.round(weatherData.days[i].tempmin),
             });
-        }
-        
+        };
+        // Copy object
+        const nonConvertedSevenDayForecasts = sevenDayForecasts.map(forecasts => ({...forecasts}) );
+    
         const hourlyForecasts = [];
         for (let i = 0; i < 24; i++) {
             hourlyForecasts.push({
+                nonConvertedHour: weatherData.days[0].hours[i].datetime,
                 hour: format(parse(weatherData.days[0].hours[i].datetime, 'HH:mm:ss', new Date()), 'ha'),
                 hourlyIconDescriptor: weatherData.days[0].hours[i].icon,
-                hourlyTemperature: weatherData.days[0].hours[i].temp, 
+                hourlyTemperature: Math.round(weatherData.days[0].hours[i].temp), 
             })
-        }
+        };
+
+        const nonConvertedHourlyForecasts = hourlyForecasts.map(forecasts => ({...forecasts}) );
 
         // Save weather data
         const allWeatherData = {
@@ -93,29 +97,31 @@ const dataFetchAndLoader = (() => {
             currentCondition: weatherData.currentConditions.conditions,
             currentIconDescriptor: weatherData.currentConditions.icon,
             currentChanceOfPrecipitation: weatherData.currentConditions.precipprob,
+            currentHumidity: weatherData.currentConditions.humidity,
             currentWindSpeed: weatherData.currentConditions.windspeed,
+            currentUVIndex: weatherData.currentConditions.uvindex,
             sevenDayForecasts: sevenDayForecasts,
             hourlyForecasts: hourlyForecasts,
-            nonConvertedSevenDayForecasts: sevenDayForecasts,
-            nonConvertedHourlyForecasts: hourlyForecasts,
+            nonConvertedSevenDayForecasts: nonConvertedSevenDayForecasts,
+            nonConvertedHourlyForecasts: nonConvertedHourlyForecasts,
             previousUserLocationSearch: location,
             nonConvertedTemperature: Math.round(weatherData.currentConditions.temp),
-        }
+        };
     
         // Send and save weather data to weatherManager
         this.notifySuccessObservers(allWeatherData);
         // Close modal after initial successful location search
         
         if (uiManager.getInitialModalState()) {
-            const startDialog = document.querySelector('#initial-modal')
+            const startDialog = document.querySelector('#initial-modal');
             startDialog.close();
             // Set Modal state to false so this block runs only once
             uiManager.setFalseInitialModalState();
-        }
+        };
 
         return allWeatherData;
 
-    }
+    };
 
     
 };
@@ -124,10 +130,3 @@ const dataFetchAndLoader = (() => {
 
 
 export default dataFetchAndLoader;
-
-
-
-// Error when name is ambiguous 
-
-
-// dataFetchAndLoader.getProccessReturnWeatherData(dataFetchAndLoader.getWeatherData,'upperville');

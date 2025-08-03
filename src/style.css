@@ -67,6 +67,13 @@ body {
     overflow: hidden;
 }
 
+main {
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+
 dialog[open] {
     width: 100vw;
     height: 100vh;
@@ -349,11 +356,22 @@ h3 {
     gap: 10px;
 }
 
+.day-forecast-wrapper div > div:nth-child(1) {
+    width: 111px;
+}
+
+.day-forecast-wrapper div > div:nth-child(2) {
+    width: 135px;
+}
+
 .day-forecast-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 500;
+    padding: 3px 8px;
+    border: none;
+    border-radius: 16px;
 }
 
 .day-forecast-wrapper > div {
@@ -369,10 +387,21 @@ h3 {
 }
 
 
-
-
 .day-forecast-wrapper img {
     height: 19px;
+}
+
+
+.todays-forecast , #hourly-cards-wrapper .current-hour {
+    background-color: rgba(255, 255, 0, 0.408);
+}
+
+.high-temperature {
+    color: rgb(255, 28, 28);
+}
+
+.low-temperature {
+    color: rgb(6, 101, 255);
 }
 
 #hourly-cards-wrapper {
